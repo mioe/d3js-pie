@@ -54,18 +54,18 @@ onMounted(() => {
 		.cornerRadius(2.5)
 		.padAngle(0.025)
 
-	const pie = d3.pie().value((d) => d.count)
+	const pie = d3.pie().value((d: any) => d.count)
 
 	const arcs = graph
 		.selectAll('.arc')
-		.data(pie(data))
+		.data(pie(data as any))
 		.enter()
 		.append('g')
 		.attr('class', 'arc')
 
 	arcs
 		.append('path')
-		.attr('d', arc)
+		.attr('d', arc as any)
 		.attr('fill', (d) => colorScale(d.value))
 
 	// Append the SVG element.
