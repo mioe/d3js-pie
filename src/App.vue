@@ -4,38 +4,69 @@ import * as d3 from 'd3'
 const container = shallowRef<HTMLElement | undefined>()
 
 onMounted(() => {
-	// Declare the chart dimensions and margins.
-	const width = 640
-	const height = 400
-	const marginTop = 20
-	const marginRight = 20
-	const marginBottom = 30
-	const marginLeft = 40
+	const data = [
+		{
+			name: 'Ответы',
+			count: 450,
+		},
+		{
+			name: '"Промокод"',
+			count: 990,
+		},
+		{
+			name: '"Информация"',
+			count: 1980,
+		},
+		{
+			name: '"Не интересно"',
+			count: 2970,
+		},
+		{
+			name: 'Не прочитано',
+			count: 900,
+		},
+		{
+			name: 'Без ответа/реакции',
+			count: 1710,
+		},
+	]
 
-	// Declare the x (horizontal position) scale.
-	const x = d3.scaleUtc()
-		.domain([new Date('2023-01-01'), new Date('2024-01-01')])
-		.range([marginLeft, width - marginRight])
+	const width = 200
+	const height = 200
+	const r = width / 2
 
-	// Declare the y (vertical position) scale.
-	const y = d3.scaleLinear()
-		.domain([0, 100])
-		.range([height - marginBottom, marginTop])
+	const colorScale = d3
+		.scaleSequential(d3.interpolate('Indigo', 'DeepPink'))
+		.domain([10, 100])
 
-	// Create the SVG container.
-	const svg = d3.create('svg')
+	const svg = d3
+		.create('svg')
 		.attr('width', width)
 		.attr('height', height)
+		.attr('viewBox', [0, 0, width, height])
 
-	// Add the x-axis.
-	svg.append('g')
-		.attr('transform', `translate(0,${height - marginBottom})`)
-		.call(d3.axisBottom(x))
+	const graph = svg.append('g').attr('transform', `translate(${r} ${r})`)
 
-	// Add the y-axis.
-	svg.append('g')
-		.attr('transform', `translate(${marginLeft},0)`)
-		.call(d3.axisLeft(y))
+	const arc = d3
+		.arc()
+		.innerRadius(r - r / 3)
+		.outerRadius(r)
+		.cornerRadius(2.5)
+		.padAngle(0.025)
+
+	const pie = d3.pie().value((d) => d.count)
+
+	const arcs = graph
+		.selectAll('.arc')
+		.data(pie(data))
+		.enter()
+		.append('g')
+		.attr('class', 'arc')
+
+	arcs
+		.append('path')
+		.attr('d', arc)
+		.attr('fill', (d) => colorScale(d.value))
 
 	// Append the SVG element.
 	container.value?.append(svg.node() as SVGSVGElement)
