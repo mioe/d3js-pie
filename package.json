@@ -13,6 +13,7 @@
 	},
 	"dependencies": {
 		"@vueuse/core": "^10.4.1",
+		"d3": "^7.8.5",
 		"pinia": "^2.1.6",
 		"vue": "^3.3.4",
 		"vue-i18n": "^9.4.1",
@@ -22,6 +23,7 @@
 		"@iconify/utils": "^2.1.10",
 		"@intlify/unplugin-vue-i18n": "^1.2.0",
 		"@mioe/eslint-config": "^0.1.4",
+		"@types/d3": "^7.4.0",
 		"@types/node": "^20.6.3",
 		"@vitejs/plugin-vue": "^4.3.4",
 		"eslint": "^8.49.0",
